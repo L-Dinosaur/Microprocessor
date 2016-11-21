@@ -1,0 +1,380 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/haodi/Documents/352 project/processor_v3_verilog
+vALU
+Z0 !s110 1479251119
+!i10b 1
+!s100 iaU79UW^_[P^VJamSBHEO3
+I:Z_8I]c?^BK5eU=z=JT8a3
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dW:/ECE352/352project/processor_v3_verilog
+w1193609288
+8ALU.v
+FALU.v
+L0 23
+Z3 OV;L;10.4d;61
+r1
+!s85 0
+31
+Z4 !s108 1479251119.000000
+!s107 ALU.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|ALU.v|
+!i113 1
+Z5 o-vlog01compat -work work
+n@a@l@u
+vchooseHEXs
+R0
+!i10b 1
+!s100 3d3`[FLzXR2G1]G]ijH=23
+Iz4bP:zd[n81FWkcRl=iG^3
+R1
+R2
+Z6 w1479250302
+Z7 8HEX.v
+Z8 FHEX.v
+Z9 L0 29
+R3
+r1
+!s85 0
+31
+R4
+Z10 !s107 HEX.v|
+Z11 !s90 -reportprogress|300|-vlog01compat|-work|work|HEX.v|
+!i113 1
+R5
+nchoose@h@e@xs
+vcounter
+R0
+!i10b 1
+!s100 DB^0dD@P`If7dW4H=8oQg1
+IzI9gC2VRk8kBP]WR3gJO41
+R1
+R2
+w1479244656
+8counter.v
+Fcounter.v
+L0 4
+R3
+r1
+!s85 0
+31
+R4
+!s107 counter.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|counter.v|
+!i113 1
+R5
+vDataMemory
+Z12 !s110 1479251118
+!i10b 1
+!s100 NVEkSFXAmHmRlZ1G]g;:F3
+I=;8?0zjB9OZ5I3dXmke;71
+R1
+R2
+w1479177228
+8DataMemory.v
+FDataMemory.v
+L0 39
+R3
+r1
+!s85 0
+31
+Z13 !s108 1479251118.000000
+!s107 DataMemory.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|DataMemory.v|
+!i113 1
+R5
+n@data@memory
+vDualMem
+R12
+!i10b 1
+!s100 ?4Ve2Dj0HUSXPD7<J?YZE2
+Iz>c34Yk4MN<RaHOF40iRY2
+R1
+R2
+w1479221586
+8DualMem.v
+FDualMem.v
+L0 40
+R3
+r1
+!s85 0
+31
+R13
+!s107 DualMem.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|DualMem.v|
+!i113 1
+R5
+n@dual@mem
+vFSM
+R0
+!i10b 1
+!s100 MkP?Z;Gb>MzMOBWiUIO9>2
+IU:S`AGTH3i6zQhn4z:b9O3
+R1
+R2
+w1479222530
+8FSM.v
+FFSM.v
+Z14 L0 20
+R3
+r1
+!s85 0
+31
+R4
+!s107 FSM.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|FSM.v|
+!i113 1
+R5
+n@f@s@m
+vHEX
+R0
+!i10b 1
+!s100 T[9j0ZX58Z;KNV5`B[7663
+IBZQ9^f1V]XWFOAi3l=XMo1
+R1
+R2
+R6
+R7
+R8
+L0 108
+R3
+r1
+!s85 0
+31
+R4
+R10
+R11
+!i113 1
+R5
+n@h@e@x
+vHEXs
+R0
+!i10b 1
+!s100 =bBcOL4@29UnJRKF^[]9A3
+I8LEj<D>C9^GP_dc`m=GV<0
+R1
+R2
+R6
+R7
+R8
+L0 59
+R3
+r1
+!s85 0
+31
+R4
+R10
+R11
+!i113 1
+R5
+n@h@e@xs
+vmemory
+R12
+!i10b 1
+!s100 mh4mcCRC@R^2c]5ZS?9l[3
+IFPfoK:fINKEmD2?F2EWSk0
+R1
+R2
+w1479249497
+8memory.v
+Fmemory.v
+R14
+R3
+r1
+!s85 0
+31
+R13
+!s107 memory.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|memory.v|
+!i113 1
+R5
+vmulticycle
+R12
+!i10b 1
+!s100 9_2Te11g2J4Ih5XA0zohI0
+IUI3Gf>Q5Q3BdB39=Q5OTL0
+R1
+R2
+w1479249648
+8multicycle.v
+Fmulticycle.v
+L0 27
+R3
+r1
+!s85 0
+31
+R13
+!s107 multicycle.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|multicycle.v|
+!i113 1
+R5
+vmulticycle_tb
+R0
+!i10b 1
+!s100 ibj[?U:8TGCVeeF?z_P5d2
+Ik5bB1i<>6D4AjF7KnGc`61
+R1
+R2
+w1479249280
+8multicycle_tb.v
+Fmulticycle_tb.v
+L0 10
+R3
+r1
+!s85 0
+31
+R4
+!s107 multicycle_tb.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|multicycle_tb.v|
+!i113 1
+R5
+vmux2to1_2bit
+R12
+!i10b 1
+!s100 Z66z64?`6Q5>]NPB]lc2>3
+IJEG:4cjFIclC3`L855_Ma3
+R1
+R2
+Z15 w1383076132
+8mux2to1_2bit.v
+Fmux2to1_2bit.v
+L0 3
+R3
+r1
+!s85 0
+31
+R13
+!s107 mux2to1_2bit.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|mux2to1_2bit.v|
+!i113 1
+R5
+vmux2to1_8bit
+R12
+!i10b 1
+!s100 BZg1:jJh9<O:md=c5ND<53
+Imgi]kTHc0_b9;ih5X7V2Z1
+R1
+R2
+w1383077416
+8mux2to1_8bit.v
+Fmux2to1_8bit.v
+L0 3
+R3
+r1
+!s85 0
+31
+R13
+!s107 mux2to1_8bit.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|mux2to1_8bit.v|
+!i113 1
+R5
+vmux5to1_8bit
+R12
+!i10b 1
+!s100 3`nhCTm^G63GCg447DAJ83
+IVzU3:[7`?OjP;^:l5d8[?1
+R1
+R2
+R15
+8mux5to1_8bit.v
+Fmux5to1_8bit.v
+L0 3
+R3
+r1
+!s85 0
+31
+R13
+!s107 mux5to1_8bit.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|mux5to1_8bit.v|
+!i113 1
+R5
+vregister_8bit
+R0
+!i10b 1
+!s100 =RCiG4PIS`Po[JABN1kK02
+I=X5]`?7J81IO`7GJn[XRV2
+R1
+R2
+w1351029456
+8register_8bit.v
+Fregister_8bit.v
+L0 4
+R3
+r1
+!s85 0
+31
+R4
+!s107 register_8bit.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|register_8bit.v|
+!i113 1
+R5
+vRF
+R0
+!i10b 1
+!s100 VLJ=1GVVXUlHGASi><d=h0
+IWgm4l@iS6fjzK;ok;4E]41
+R1
+R2
+w1181106658
+8RF.v
+FRF.v
+L0 26
+R3
+r1
+!s85 0
+31
+R4
+!s107 RF.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|RF.v|
+!i113 1
+R5
+n@r@f
+vsExtend
+R0
+!i10b 1
+!s100 =PGKH9^D[MSdM1`?_g0hS3
+IB5a?T:WDz3<A503mAlCe`2
+R1
+R2
+Z16 w1181107738
+Z17 8extend.v
+Z18 Fextend.v
+L0 38
+R3
+r1
+!s85 0
+31
+R4
+Z19 !s107 extend.v|
+Z20 !s90 -reportprogress|300|-vlog01compat|-work|work|extend.v|
+!i113 1
+R5
+ns@extend
+vzExtend
+R0
+!i10b 1
+!s100 bJVaS13jhmVTOk>Of=dAZ1
+IeX2W[KDhfk^oX^;W9IaEB2
+R1
+R2
+R16
+R17
+R18
+R9
+R3
+r1
+!s85 0
+31
+R4
+R19
+R20
+!i113 1
+R5
+nz@extend
