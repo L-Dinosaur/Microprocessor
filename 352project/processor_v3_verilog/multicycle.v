@@ -39,13 +39,16 @@ output reg [17:0] LEDR;
 
 // ------------------------- Registers/Wires ------------------------ //
 wire	clock, reset;
-wire	IRLoad, MDRLoad, MemRead, MemWrite, PCWrite, RegIn;
+wire	IR1Load, IR2Load, IR3Load, IR4Load, MDRLoad, MemRead, MemWrite, PCWrite, RegIn;
 wire	ALU1, ALUOutWrite, FlagWrite, R1R2Load, R1Sel, RFWrite;
 wire	[7:0] R2wire, PCwire, R1wire, RFout1wire, RFout2wire, MEMwire_pc;
-wire	[7:0] ALU1wire, ALU2wire, ALUwire, ALUOut, MDRwire, MEMwire;
-wire	[7:0] IR, SE4wire, ZE5wire, ZE3wire, RegWire;
+wire	[7:0] ALU1wire, ALU2wire, ALUwire, ALUOut, MDRwire, MEMwire, ALUPCwire_out;
+wire	[7:0] SE4wire, ZE5wire, ZE3wire, RegWire;
+wire	[7:0] PCSelwire_out;
+
+wire 	[7:0] IR1wire_out, IR2wire_out, IR3wire_out, IR4wire_out;
 wire	[7:0] reg0, reg1, reg2, reg3;
-wire [15:0] counter_output;
+wire 	[15:0]counter_output;
 wire	[7:0] constant;
 wire	[2:0] ALUOp, ALU2;
 wire	[1:0] R1_in;
@@ -55,6 +58,9 @@ reg		N, Z;
 // ------------------------ Input Assignment ------------------------ //
 assign	clock = KEY[1];
 assign	reset =  ~KEY[0]; // KEY is active high
+
+
+wire 	[2:0]	add_op;
 
 
 
@@ -105,20 +111,41 @@ memory	DataMem(
 );
 
 ALU		ALU(
-	.in1(ALU1wire),.in2(ALU2wire),.out(ALUwire),
+	.in1(R1wire),.in2(ALU2wire),.out(ALUwire),
 	.ALUOp(ALUOp),.N(Nwire),.Z(Zwire)
+);
+
+ALU		ALUPC(
+	.in1(PCwire),.in2(constant),.out(ALUPCwire_out),
+	.ALUOp(add_op)
+	// ,.N(xx),.Z(xx)
 );
 
 RF		RF_block(
 	.clock(clock),.reset(reset),.RFWrite(RFWrite),
 	.dataw(RegWire),.reg1(R1_in),.reg2(IR[5:4]),
-	.regw(R1_in),.data1(RFout1wire),.data2(RFout2wire),
+	.regw(IR4wire_out[7:6]),.data1(RFout1wire),.data2(RFout2wire),
 	.r0(reg0),.r1(reg1),.r2(reg2),.r3(reg3)
 );
 
-register_8bit	IR_reg(
-	.clock(clock),.aclr(reset),.enable(IRLoad),
-	.data(MEMwire_pc),.q(IR)
+register_8bit	IR1_reg(
+	.clock(clock),.aclr(reset),.enable(IR1Load),
+	.data(MEMwire_pc),.q(IR1wire_out)
+);
+
+register_8bit	IR2_reg(
+	.clock(clock),.aclr(reset),.enable(IR2Load),
+	.data(IR1wire_out),.q(IR2wire_out)
+);
+
+register_8bit	IR3_reg(
+	.clock(clock),.aclr(reset),.enable(IR3Load),
+	.data(IR2wire_out),.q(IR3wire_out)
+);
+
+register_8bit	IR4_reg(
+	.clock(clock),.aclr(reset),.enable(IR4Load),
+	.data(IR3wire_out),.q(IR4wire_out)
 );
 
 register_8bit	MDR_reg(
@@ -128,7 +155,7 @@ register_8bit	MDR_reg(
 
 register_8bit	PC(
 	.clock(clock),.aclr(reset),.enable(PCWrite),
-	.data(ALUwire),.q(PCwire)
+	.data(PCSelwire_out),.q(PCwire)
 );
 
 register_8bit	R1(
@@ -164,19 +191,25 @@ mux2to1_8bit 		RegMux(
 	.sel(RegIn),.result(RegWire)
 );
 
-mux2to1_8bit 		ALU1_mux(
-	.data0x(PCwire),.data1x(R1wire),
-	.sel(ALU1),.result(ALU1wire)
+mux2to1_8bit 		PCSelMux(
+	.data0x(ALUwire),.data1x(ALUPCwire_out),
+	.sel(PCSel),.result(PCSelwire_out)
 );
+
+
+// mux2to1_8bit 		ALU1_mux(
+	// .data0x(PCwire),.data1x(R1wire),
+	// .sel(ALU1),.result(ALU1wire)
+// );
 
 mux5to1_8bit 		ALU2_mux(
 	.data0x(R2wire),.data1x(constant),.data2x(SE4wire),
 	.data3x(ZE5wire),.data4x(ZE3wire),.sel(ALU2),.result(ALU2wire)
 );
 
-sExtend		SE4(.in(IR[7:4]),.out(SE4wire));
-zExtend		ZE3(.in(IR[5:3]),.out(ZE3wire));
-zExtend		ZE5(.in(IR[7:3]),.out(ZE5wire));
+sExtend		SE4(.in(IR3wire_out[7:4]),.out(SE4wire));
+zExtend		ZE3(.in(IR3wire_out[5:3]),.out(ZE3wire));
+zExtend		ZE5(.in(IR3wire_out[7:3]),.out(ZE5wire));
 // define parameter for the data size to be extended
 defparam	SE4.n = 4;
 defparam	ZE3.n = 3;
@@ -199,6 +232,7 @@ end
 
 // ------------------------ Assign Constant 1 ----------------------- //
 assign	constant = 1;
+assign add_op = 3'b000; // for the pc incrementer
 
 // ------------------------- LEDs Indicator ------------------------- //
 always @ (*)
@@ -213,7 +247,7 @@ begin
       //LEDR[6] = AddrSel;
       LEDR[5] = MemRead;
       LEDR[4] = MemWrite;
-      LEDR[3] = IRLoad;
+      LEDR[3] = IR1Load;
       LEDR[2] = R1Sel;
       LEDR[1] = MDRLoad;
       LEDR[0] = R1R2Load;
