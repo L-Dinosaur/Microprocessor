@@ -5,7 +5,7 @@ module DecodeControl
 	input clock, reset;
 	output IR2Load;
 	reg IR2Load;
-	always @(posedge clock or posedge reset)
+	always @(*)
 	begin 
 		if (reset)
 			IR2Load <= 0;

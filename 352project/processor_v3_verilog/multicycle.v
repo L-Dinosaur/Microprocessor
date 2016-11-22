@@ -45,12 +45,15 @@ wire	[7:0] R2wire, PCwire, R1wire, RFout1wire, RFout2wire, MEMwire_pc;
 wire	[7:0] ALU1wire, ALU2wire, ALUwire, ALUOut, MDRwire, MEMwire, ALUPCwire_out;
 wire	[7:0] SE4wire, ZE5wire, ZE3wire, RegWire;
 wire	[7:0] PCSelwire_out;
-
+wire 	PCSel;
+wire 	[1:0] regWB;
+wire 	R1WBSel;
 wire 	[7:0] IR1wire_out, IR2wire_out, IR3wire_out, IR4wire_out;
 wire	[7:0] reg0, reg1, reg2, reg3;
 wire 	[15:0]counter_output;
 wire	[7:0] constant;
-wire	[2:0] ALUOp, ALU2;
+wire	[2:0] ALUOp; 
+wire 	[1:0] ALU2;
 wire	[1:0] R1_in;
 wire	Nwire, Zwire;
 reg		N, Z;
@@ -82,18 +85,75 @@ assign HEX7 = 7'b1111111;
 // ----------------- END DE1 compatible HEX display ----------------- //
 */
 
-FSM		Control(
-	.reset(reset),.clock(clock),.N(N),.Z(Z),.instr(IR[3:0]),
-	.PCwrite(PCWrite),.MemRead(MemRead),.MemWrite(MemWrite),
-	.IRload(IRLoad),.R1Sel(R1Sel),.MDRload(MDRLoad),.R1R2Load(R1R2Load),
-	.ALU1(ALU1),.ALUOutWrite(ALUOutWrite),.RFWrite(RFWrite),.RegIn(RegIn),
-	.FlagWrite(FlagWrite),.ALU2(ALU2),.ALUop(ALUOp)
+// FSM		Control(
+	// .reset(reset),.clock(clock),.N(N),.Z(Z),.instr(IR[3:0]),
+	// .PCwrite(PCWrite),.MemRead(MemRead),.MemWrite(MemWrite),
+	// .IRload(IRLoad),.R1Sel(R1Sel),.MDRload(MDRLoad),.R1R2Load(R1R2Load),
+	// .ALU1(ALU1),.ALUOutWrite(ALUOutWrite),.RFWrite(RFWrite),.RegIn(RegIn),
+	// .FlagWrite(FlagWrite),.ALU2(ALU2),.ALUop(ALUOp)
+// );
+
+FetchControl FetchCon
+(
+	.clock(clock),
+	.reset(reset),
+	.IR1Load(IR1Load),
+	.PCWrite(PCWrite),
+	.PCSel(PCSel),
+	.MemRead(MemRead),
+	.MEMwire_pc(MEMwire_pc[3:0]), 
+	.IR1wire_out(IR1wire_out[3:0])
 );
+
+DecodeControl DecodeCon(
+	.clock(clock),
+	.reset(reset),
+	.IR2Load(IR2Load)
+);
+
+
+RFControl RFCon
+(
+	.clock(clock),
+	.reset(reset),
+	.IR3Load(IR3Load),
+	.IR2wire_out(IR2wire_out[3:0]),
+	.R1R2Load(R1R2Load),
+	.R1Sel(R1Sel)
+);
+
+EXControl EXCon
+(
+	.clock(clock),
+	.reset(reset),
+	.IR3(IR3wire_out),
+	.IR4Load(IR4Load),
+	.ALUop(ALUOp),
+	.ALU2(ALU2),
+	.Flagwrite(FlagWrite),
+	.MemWrite(MemWrite),
+	.ALUOutWrite(ALUOutWrite), 
+	.MemRead(MemRead),
+	.MDRload(MDRLoad), 
+	.N(N),
+	.Z(Z)
+);
+
+WBControl WBCon
+(
+	.clock(clock),
+	.reset(reset),
+	.RegIn(RegIn),
+	.RFWrite(RFWrite),
+	.IR4Wire_out(IR4wire_out),
+	.R1WBSel(R1WBSel)
+);
+
 counter ProgramCounter (
-.reset(reset),
-.clock(clock),
-.instr(IR[3:0]), 
-.counter_output(counter_output)
+	.reset(reset),
+	.clock(clock),
+	.instr(IR3wire_out[3:0]), 
+	.counter_output(counter_output)
 
 );
 
@@ -123,8 +183,8 @@ ALU		ALUPC(
 
 RF		RF_block(
 	.clock(clock),.reset(reset),.RFWrite(RFWrite),
-	.dataw(RegWire),.reg1(R1_in),.reg2(IR[5:4]),
-	.regw(IR4wire_out[7:6]),.data1(RFout1wire),.data2(RFout2wire),
+	.dataw(RegWire),.reg1(R1_in),.reg2(IR2wire_out[5:4]),
+	.regw(regWB),.data1(RFout1wire),.data2(RFout2wire),
 	.r0(reg0),.r1(reg1),.r2(reg2),.r3(reg3)
 );
 
@@ -174,8 +234,14 @@ register_8bit	ALUOut_reg(
 );
 
 mux2to1_2bit		R1Sel_mux(
-	.data0x(IR[7:6]),.data1x(constant[1:0]),
+	.data0x(IR2wire_out[7:6]),.data1x(constant[1:0]),
 	.sel(R1Sel),.result(R1_in)
+);
+
+
+mux2to1_2bit		R1WBSel_mux(
+	.data0x(IR4wire_out[7:6]),.data1x(constant[1:0]),
+	.sel(R1WBSel),.result(regWB)
 );
 /* 
  * Don't need addrsel mux anymore since addr_pc and addr_data
@@ -203,8 +269,8 @@ mux2to1_8bit 		PCSelMux(
 // );
 
 mux5to1_8bit 		ALU2_mux(
-	.data0x(R2wire),.data1x(constant),.data2x(SE4wire),
-	.data3x(ZE5wire),.data4x(ZE3wire),.sel(ALU2),.result(ALU2wire)
+	.data0x(R2wire),.data1x(SE4wire),.data2x(ZE5wire),
+	.data3x(ZE3wire),.sel(ALU2),.result(ALU2wire)
 );
 
 sExtend		SE4(.in(IR3wire_out[7:4]),.out(SE4wire));
@@ -256,7 +322,7 @@ begin
     2'b01:
     begin
       LEDR[9] = ALU1;
-      LEDR[8:6] = ALU2[2:0];
+      LEDR[8:7] = ALU2[1:0];
       LEDR[5:3] = ALUOp[2:0];
       LEDR[2] = ALUOutWrite;
       LEDR[1] = RFWrite;
