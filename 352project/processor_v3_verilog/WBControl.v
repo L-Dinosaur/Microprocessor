@@ -21,6 +21,10 @@ module WBControl
 			RFWrite = 1;
 			RegIn = 1;
 		end
+		else if (IR4Wire_out[3:0] == 4'0010) //store instruction
+		begin 
+			RFWrite = 0;
+			RegIn = 1;
 		else
 		begin
 			RFWrite = 1;
