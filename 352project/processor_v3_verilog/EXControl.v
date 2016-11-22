@@ -109,6 +109,17 @@ module EXControl
 			Memwrite = 1;
 			IR4Load = 1;
 		end
+		else if(IR3[3:0] == 4'b1010)
+		begin
+			MemRead = 0;
+			MDRload = 0;
+			ALUop = 3'b000;
+			ALU2 = 2'b00;
+			ALUOutWrite = 0;
+			Flagwrite = 0;
+			Memwrite = 0;
+			IR4Load = 0;
+		end
 		else
 		begin
 			ALUop = 3'b000;
