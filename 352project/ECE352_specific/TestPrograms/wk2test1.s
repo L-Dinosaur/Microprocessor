@@ -19,48 +19,6 @@
 	nop
 	nop
 	nop
-	load	k0,(k1)	; load value 252 from address 64
-	sub	k1,k1	; clear k1
-	nop
-	nop
-
-	nand	k2,k0	; should leave 0x03 in k2
-	nand	k3,k0	; should leave 0x03 in k3
-	sub	k0,k0	; clear k0
-	ori	1	; put 1 into k1
-	nop
-	nop
-	nop
-
-loop	add	k0,k1	; increment k0
-	shiftl	k2,1	; multiply k2 by 2
-	sub	k3,k1	; decrement k3
-	bnz	loop	; loop until k3 = 0
-	nop
-	nop
-	nop		; 28 instructions so far
-
-	sub	k1,k1	; clear k1
-	nop
-	nop
-	nop
-	ori	17
-	nop
-	nop
-	nop
-	shiftl	k1,2	; multiply 17 by 4 to get address 68
-	nop
-	nop
-	nop
-	store	k2,(k1)	; write k2 to memory
-	nop
-	nop
-	nop
-	load	k3,(k1) ; read it to k3
-	nop
-	nop
-	nop
-	stop	; 49 instructions?
 	nop
 	nop
 	nop
@@ -73,6 +31,7 @@ loop	add	k0,k1	; increment k0
 	nop
 	nop
 	nop
+	
 
 	org	64
 ldlbl	db	252

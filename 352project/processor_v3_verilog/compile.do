@@ -15,4 +15,8 @@ vlog -vlog01compat -work work HEX.v
 vlog -vlog01compat -work work FSM.v
 vlog -vlog01compat -work work multicycle_tb.v
 vlog -vlog01compat -work work counter.v
-
+vlog -vlog01compat -work work RFControl.v
+vlog -vlog01compat -work work WBControl.v
+vlog -vlog01compat -work work FetchControl.v
+vlog -vlog01compat -work work EXControl.v
+vlog -vlog01compat -work work DecodeControl.v

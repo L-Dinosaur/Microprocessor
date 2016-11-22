@@ -13,14 +13,14 @@ add wave -noupdate /multicycle_tb/SW
 add wave -noupdate -divider {multicycle.v outputs}
 add wave -noupdate /multicycle_tb/LEDG
 add wave -noupdate /multicycle_tb/LEDR
-add wave -noupdate /multicycle_tb/HEX0
-add wave -noupdate /multicycle_tb/HEX1
-add wave -noupdate /multicycle_tb/HEX2
-add wave -noupdate /multicycle_tb/HEX3
-add wave -noupdate /multicycle_tb/HEX4
-add wave -noupdate /multicycle_tb/HEX5
-add wave -noupdate /multicycle_tb/HEX6
-add wave -noupdate /multicycle_tb/HEX7
+add wave -noupdate /multicycle_tb/DUT/IR1wire_out
+add wave -noupdate /multicycle_tb/DUT/IR2wire_out
+add wave -noupdate /multicycle_tb/DUT/IR3wire_out
+add wave -noupdate /multicycle_tb/DUT/IR4wire_out
+
+
+
+
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {2500 ns} 0}
 configure wave -namecolwidth 227

@@ -7,19 +7,19 @@ module EXControl
 );
 	input clock, reset, N, Z;
 	input [7:0]IR3;
-	input [7:0]PC;
+
 	
 	
 	output [2:0]ALUop;
 	output [1:0]ALU2;
 	output Flagwrite, MemWrite, ALUOutWrite, IR4Load, MemRead, MDRload;
 	
-	reg [2:0]AlUop;
+	reg [2:0]ALUop;
 	reg [1:0]ALU2;
 	reg Flagwrite, MemWrite, ALUOutWrite, IR4Load, MemRead, MDRload;
 	
 	
-	always@(posedge clock or posedge reset)
+	always@(*)
 	begin
 		if(reset)
 		begin
@@ -95,7 +95,7 @@ module EXControl
 			ALU2 = 2'b00;
 			ALUOutWrite = 0;
 			Flagwrite = 0;
-			Memwrite = 0;
+			MemWrite = 0;
 			IR4Load = 1;
 		end
 		else if(IR3[3:0] == 4'b0010) // store
@@ -106,7 +106,7 @@ module EXControl
 			ALU2 = 2'b00;
 			ALUOutWrite = 0;
 			Flagwrite = 0;
-			Memwrite = 1;
+			MemWrite = 1;
 			IR4Load = 1;
 		end
 		else if(IR3[3:0] == 4'b1010)
@@ -117,7 +117,18 @@ module EXControl
 			ALU2 = 2'b00;
 			ALUOutWrite = 0;
 			Flagwrite = 0;
-			Memwrite = 0;
+			MemWrite = 0;
+			IR4Load = 0;
+		end
+		else if(IR3[3:0] == 4'b1010)
+		begin
+			MemRead = 0;
+			MDRload = 0;
+			ALUop = 3'b000;
+			ALU2 = 2'b00;
+			ALUOutWrite = 0;
+			Flagwrite = 0;
+			MemWrite = 0;
 			IR4Load = 0;
 		end
 		else
