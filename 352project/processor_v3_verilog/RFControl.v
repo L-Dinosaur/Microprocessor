@@ -13,7 +13,7 @@ module RFControl
 			IR3Load <= 0; 
 			R1R2Load <= 0;
 		end
-		else if( IR2wire_out[3:0] == 4'b0111) //ORI
+		else if( IR2wire_out[2:0] == 3'b111) //ORI
 		begin
 			IR3Load <= 1;
 			R1Sel <= 1;

@@ -17,7 +17,7 @@ module WBControl
 			R1WBSel <= 0;
 		
 		end
-		if (IR4Wire_out[3:0] == 4'b0000) //load instruction
+		else if (IR4Wire_out[3:0] == 4'b0000) //load instruction
 		begin
 			RFWrite <= 1;
 			RegIn <= 1;
@@ -35,7 +35,7 @@ module WBControl
 			RegIn <= 1;
 			R1WBSel <= 0;
 		end
-		else if (IR4Wire_out[3:0] == 4'b0111) // ori
+		else if (IR4Wire_out[2:0] == 3'b111) // ori
 		begin
 			RFWrite <= 1;
 			RegIn <= 0;

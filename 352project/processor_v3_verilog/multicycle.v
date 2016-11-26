@@ -48,6 +48,7 @@ wire	[7:0] PCSelwire_out;
 wire 	PCSel;
 wire 	[1:0] regWB;
 wire 	R1WBSel;
+wire 	[7:0] EXPCWire; 
 wire 	[7:0] IR1wire_out, IR2wire_out, IR3wire_out, IR4wire_out;
 wire	[7:0] reg0, reg1, reg2, reg3;
 wire 	[15:0]counter_output;
@@ -57,6 +58,9 @@ wire 	[1:0] ALU2;
 wire	[1:0] R1_in;
 wire	Nwire, Zwire;
 reg		N, Z;
+wire	EXPCSel, FetchPCSel;
+
+wire [7:0] EXPC_PC_link;
 
 // ------------------------ Input Assignment ------------------------ //
 assign	clock = KEY[1];
@@ -99,7 +103,7 @@ FetchControl FetchCon
 	.reset(reset),
 	.IR1Load(IR1Load),
 	.PCWrite(PCWrite),
-	.PCSel(PCSel),
+	.FetchPCSel(FetchPCSel),
 	.MemRead(MemRead),
 	.MEMwire_pc(MEMwire_pc[3:0]), 
 	.IR1wire_out(IR1wire_out[3:0])
@@ -133,10 +137,14 @@ EXControl EXCon
 	.Flagwrite(FlagWrite),
 	.MemWrite(MemWrite),
 	.ALUOutWrite(ALUOutWrite), 
-	.MemRead(MemRead),
+	//.MemRead(MemRead),
 	.MDRload(MDRLoad), 
-	.N(N),
-	.Z(Z)
+	.N(N),.Z(Z),
+	.EXPCSel(EXPCSel),
+	.EXPCWire(EXPCWire),
+	.SE4wire(SE4wire),
+	.PCwire(PCwire)
+	
 );
 
 WBControl WBCon
@@ -257,8 +265,10 @@ mux2to1_8bit 		RegMux(
 	.sel(RegIn),.result(RegWire)
 );
 
+assign PCSel = FetchPCSel & EXPCSel;
+
 mux2to1_8bit 		PCSelMux(
-	.data0x(ALUwire),.data1x(ALUPCwire_out),
+	.data0x(EXPCWire),.data1x(ALUPCwire_out),
 	.sel(PCSel),.result(PCSelwire_out)
 );
 
