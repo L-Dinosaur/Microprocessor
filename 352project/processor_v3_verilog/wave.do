@@ -18,8 +18,12 @@ add wave -noupdate /multicycle_tb/DUT/IR2wire_out
 add wave -noupdate /multicycle_tb/DUT/IR3wire_out
 add wave -noupdate /multicycle_tb/DUT/IR4wire_out
 
-
-
+add wave -noupdate /multicycle_tb/DUT/PCwire
+add wave -noupdate /multicycle_tb/DUT/ALUPCwire_out
+add wave -noupdate /multicycle_tb/DUT/MEMwire_pc
+add wave -noupdate /multicycle_tb/DUT/ALUwire
+add wave -noupdate /multicycle_tb/DUT/ALU1wire
+add wave -noupdate /multicycle_tb/DUT/PC3_out
 
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 1} {2500 ns} 0}

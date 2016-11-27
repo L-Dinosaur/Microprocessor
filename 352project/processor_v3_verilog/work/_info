@@ -9,7 +9,7 @@ z2
 cModel Technology
 dC:/Users/haodi/Documents/352 project/processor_v3_verilog
 vALU
-Z0 !s110 1479817033
+Z0 !s110 1480285033
 !i10b 1
 !s100 iaU79UW^_[P^VJamSBHEO3
 I@1hcEM6<h^UC1_XiP>;en0
@@ -23,7 +23,7 @@ Z4 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z5 !s108 1479817033.000000
+Z5 !s108 1480285033.000000
 !s107 ALU.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|ALU.v|
 !i113 1
@@ -31,29 +31,29 @@ Z6 o-vlog01compat -work work
 Z7 tCvgOpt 0
 n@a@l@u
 vchooseHEXs
-R0
+Z8 !s110 1480285034
 !i10b 1
 !s100 3d3`[FLzXR2G1]G]ijH=23
 IKUKY<>:MDeAneP^lI?GbI3
 R1
 R2
 R3
-Z8 8HEX.v
-Z9 FHEX.v
-Z10 L0 29
+Z9 8HEX.v
+Z10 FHEX.v
+Z11 L0 29
 R4
 r1
 !s85 0
 31
-R5
-Z11 !s107 HEX.v|
-Z12 !s90 -reportprogress|300|-vlog01compat|-work|work|HEX.v|
+Z12 !s108 1480285034.000000
+Z13 !s107 HEX.v|
+Z14 !s90 -reportprogress|300|-vlog01compat|-work|work|HEX.v|
 !i113 1
 R6
 R7
 nchoose@h@e@xs
 vcounter
-Z13 !s110 1479817034
+R8
 !i10b 1
 !s100 DB^0dD@P`If7dW4H=8oQg1
 I=WhHX^;M;oaI`@=6V625Y3
@@ -67,7 +67,7 @@ R4
 r1
 !s85 0
 31
-Z14 !s108 1479817034.000000
+R12
 !s107 counter.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|counter.v|
 !i113 1
@@ -96,7 +96,7 @@ R6
 R7
 n@data@memory
 vDecodeControl
-R13
+Z15 !s110 1480285035
 !i10b 1
 !s100 NoRS;G]Dehz8GODmCUBaC3
 I72Pm9K10eXbjh]VeE4gY>3
@@ -110,7 +110,7 @@ R4
 r1
 !s85 0
 31
-R14
+Z16 !s108 1480285035.000000
 !s107 DecodeControl.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|DecodeControl.v|
 !i113 1
@@ -140,13 +140,13 @@ R6
 R7
 n@dual@mem
 vEXControl
-R13
+R15
 !i10b 1
-!s100 DS01gzN;i^i:=85BQ8Qb^0
-I`2f_moilaLF[B?5kR`X0]3
+!s100 h?_11US?mzh9QbODhem3b0
+IIIHWGc;AXFaJXj=bBX2XY2
 R1
 R2
-w1479811950
+w1480282541
 8EXControl.v
 FEXControl.v
 L0 1
@@ -154,7 +154,7 @@ R4
 r1
 !s85 0
 31
-R14
+R16
 !s107 EXControl.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|EXControl.v|
 !i113 1
@@ -162,13 +162,13 @@ R6
 R7
 n@e@x@control
 vFetchControl
-R13
+R15
 !i10b 1
-!s100 Q`91PGVL=LmPhl:HEa<T53
-IJ:MMLWHI^2_=HXBU?@K@d0
+!s100 LZ2^7CXmAO6fACNTIiXYK2
+IoOHTB6mZj8R>iMYS@YoHX0
 R1
 R2
-w1479817027
+w1480274564
 8FetchControl.v
 FFetchControl.v
 L0 1
@@ -176,7 +176,7 @@ R4
 r1
 !s85 0
 31
-R14
+R16
 !s107 FetchControl.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|FetchControl.v|
 !i113 1
@@ -184,7 +184,7 @@ R6
 R7
 n@fetch@control
 vFSM
-R13
+R8
 !i10b 1
 !s100 MkP?Z;Gb>MzMOBWiUIO9>2
 INE<AJhFReVIUC<XGVX:Vg2
@@ -193,58 +193,80 @@ R2
 R3
 8FSM.v
 FFSM.v
-Z15 L0 20
+Z17 L0 20
 R4
 r1
 !s85 0
 31
-R14
+R12
 !s107 FSM.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|FSM.v|
 !i113 1
 R6
 R7
 n@f@s@m
+vHazardFSM
+R15
+!i10b 1
+!s100 QmC1LAg?Ff1IA=zDf_Q@J3
+I9KbRz0JA:YoBf;ShB3zZa2
+R1
+R2
+w1480285026
+8HazardFSM.v
+FHazardFSM.v
+L0 4
+R4
+r1
+!s85 0
+31
+R16
+!s107 HazardFSM.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|HazardFSM.v|
+!i113 1
+R6
+R7
+n@hazard@f@s@m
 vHEX
-R0
+R8
 !i10b 1
 !s100 T[9j0ZX58Z;KNV5`B[7663
 IzzFQJmQL_nYf7@5l4;K4m2
 R1
 R2
 R3
-R8
 R9
+R10
 L0 108
 R4
 r1
 !s85 0
 31
-R5
-R11
 R12
+R13
+R14
 !i113 1
 R6
 R7
 n@h@e@x
 vHEXs
-R0
+R8
 !i10b 1
 !s100 =bBcOL4@29UnJRKF^[]9A3
 I]IeCA^oAROgS67Tl[P4kM3
 R1
 R2
 R3
-R8
 R9
+R10
 L0 59
 R4
 r1
 !s85 0
 31
-R5
-R11
 R12
+R13
+R14
 !i113 1
 R6
 R7
@@ -259,7 +281,7 @@ R2
 w1479803411
 8memory.v
 Fmemory.v
-R15
+R17
 R4
 r1
 !s85 0
@@ -271,13 +293,13 @@ R5
 R6
 R7
 vmulticycle
-Z16 !s110 1479817032
+Z18 !s110 1480285032
 !i10b 1
-!s100 =9HkoNO[HS^=96cGaBT?R1
-I6LnfJWzZ:8Ui8^HNE44kP0
+!s100 57VX=f0i9`]Snbj=lXXz50
+IPPCkj`<9dP]<A>Fc19X4f2
 R1
 R2
-w1479816833
+w1480284868
 8multicycle.v
 Fmulticycle.v
 L0 27
@@ -285,20 +307,20 @@ R4
 r1
 !s85 0
 31
-Z17 !s108 1479817032.000000
+Z19 !s108 1480285032.000000
 !s107 multicycle.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|multicycle.v|
 !i113 1
 R6
 R7
 vmulticycle_tb
-R13
+R8
 !i10b 1
 !s100 ibj[?U:8TGCVeeF?z_P5d2
 I]Y?JANC6=KCOY292lXbUC0
 R1
 R2
-Z18 w1479754397
+Z20 w1479754397
 8multicycle_tb.v
 Fmulticycle_tb.v
 L0 10
@@ -306,20 +328,20 @@ R4
 r1
 !s85 0
 31
-R14
+R12
 !s107 multicycle_tb.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|multicycle_tb.v|
 !i113 1
 R6
 R7
 vmux2to1_2bit
-R16
+R18
 !i10b 1
 !s100 Z66z64?`6Q5>]NPB]lc2>3
 I3c76ZiXK[5e_P:]^[JAGF2
 R1
 R2
-R18
+R20
 8mux2to1_2bit.v
 Fmux2to1_2bit.v
 L0 3
@@ -327,20 +349,20 @@ R4
 r1
 !s85 0
 31
-R17
+R19
 !s107 mux2to1_2bit.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|mux2to1_2bit.v|
 !i113 1
 R6
 R7
 vmux2to1_8bit
-R16
+R18
 !i10b 1
 !s100 BZg1:jJh9<O:md=c5ND<53
 I5lh?Ui4MSJ<`j5Eno2EIG2
 R1
 R2
-R18
+R20
 8mux2to1_8bit.v
 Fmux2to1_8bit.v
 L0 3
@@ -348,14 +370,14 @@ R4
 r1
 !s85 0
 31
-R17
+R19
 !s107 mux2to1_8bit.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|mux2to1_8bit.v|
 !i113 1
 R6
 R7
 vmux5to1_8bit
-R0
+R18
 !i10b 1
 !s100 :`2azHA8cIz_R@`YhjS;03
 I0<H6DC4AWZ@a1]4B3E`X_3
@@ -369,7 +391,7 @@ R4
 r1
 !s85 0
 31
-R17
+R19
 !s107 mux5to1_8bit.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|mux5to1_8bit.v|
 !i113 1
@@ -382,7 +404,7 @@ R0
 I4Z6VF0:m8PTHQB]Nc1Lo12
 R1
 R2
-R18
+R20
 8register_8bit.v
 Fregister_8bit.v
 L0 4
@@ -419,13 +441,13 @@ R6
 R7
 n@r@f
 vRFControl
-R13
+R15
 !i10b 1
-!s100 Z>1gj:6PTWj=fL]FacZ>L3
-I=LiP@2WJ_b?GFAdGf2B3a2
+!s100 K3N:P5C4Td59F`UG3U:C@0
+IUO0V`S`<LBQKM9JaZZ[V93
 R1
 R2
-w1479811971
+Z21 w1480178892
 8RFControl.v
 FRFControl.v
 L0 1
@@ -433,7 +455,7 @@ R4
 r1
 !s85 0
 31
-R14
+R12
 !s107 RFControl.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|RFControl.v|
 !i113 1
@@ -441,35 +463,35 @@ R6
 R7
 n@r@f@control
 vsExtend
-R0
+R8
 !i10b 1
 !s100 =PGKH9^D[MSdM1`?_g0hS3
 IzN:X:12YNbB[Ch:aa`I;O1
 R1
 R2
-R18
-Z19 8extend.v
-Z20 Fextend.v
+R20
+Z22 8extend.v
+Z23 Fextend.v
 L0 38
 R4
 r1
 !s85 0
 31
 R5
-Z21 !s107 extend.v|
-Z22 !s90 -reportprogress|300|-vlog01compat|-work|work|extend.v|
+Z24 !s107 extend.v|
+Z25 !s90 -reportprogress|300|-vlog01compat|-work|work|extend.v|
 !i113 1
 R6
 R7
 ns@extend
 vWBControl
-R13
+R15
 !i10b 1
-!s100 T7]oU<dE_ZJlG46V2f7TP2
-ITR1UFWW=_kJ10:4iiO>zn3
+!s100 h<6Y3V;G0FL4e@C[2b^F43
+IdeI`c8Xz4JETU;ZXL2]2[3
 R1
 R2
-w1479813925
+R21
 8WBControl.v
 FWBControl.v
 L0 2
@@ -477,7 +499,7 @@ R4
 r1
 !s85 0
 31
-R14
+R16
 !s107 WBControl.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|WBControl.v|
 !i113 1
@@ -485,23 +507,23 @@ R6
 R7
 n@w@b@control
 vzExtend
-R0
+R8
 !i10b 1
 !s100 bJVaS13jhmVTOk>Of=dAZ1
 ICV6P5n`2cBac_a_`O3@9T0
 R1
 R2
-R18
-R19
 R20
-R10
+R22
+R23
+R11
 R4
 r1
 !s85 0
 31
 R5
-R21
-R22
+R24
+R25
 !i113 1
 R6
 R7

@@ -11,7 +11,7 @@ module FetchControl
 	begin 
 		if (reset)
 		begin
-			MemRead <= 1;
+			MemRead <= 0;
 			PCWrite <= 0;
 			IR1Load <= 0;
 			FetchPCSel <= 0;

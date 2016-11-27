@@ -40,7 +40,7 @@ output reg [17:0] LEDR;
 // ------------------------- Registers/Wires ------------------------ //
 wire	clock, reset;
 wire	IR1Load, IR2Load, IR3Load, IR4Load, MDRLoad, MemRead, MemWrite, PCWrite, RegIn;
-wire	ALU1, ALUOutWrite, FlagWrite, R1R2Load, R1Sel, RFWrite;
+wire	ALUOutWrite, FlagWrite, R1R2Load, R1Sel, RFWrite;
 wire	[7:0] R2wire, PCwire, R1wire, RFout1wire, RFout2wire, MEMwire_pc;
 wire	[7:0] ALU1wire, ALU2wire, ALUwire, ALUOut, MDRwire, MEMwire, ALUPCwire_out;
 wire	[7:0] SE4wire, ZE5wire, ZE3wire, RegWire;
@@ -48,19 +48,30 @@ wire	[7:0] PCSelwire_out;
 wire 	PCSel;
 wire 	[1:0] regWB;
 wire 	R1WBSel;
-wire 	[7:0] EXPCWire; 
+//wire 	[7:0] EXPCWire; 
 wire 	[7:0] IR1wire_out, IR2wire_out, IR3wire_out, IR4wire_out;
 wire	[7:0] reg0, reg1, reg2, reg3;
 wire 	[15:0]counter_output;
 wire	[7:0] constant;
 wire	[2:0] ALUOp; 
-wire 	[1:0] ALU2;
+wire 	[1:0] ALU2, ALU1;
 wire	[1:0] R1_in;
 wire	Nwire, Zwire;
 reg		N, Z;
-wire	EXPCSel, FetchPCSel;
+wire	EXMemRead, FetchMemRead;
+wire FetchPCSel; 
+wire EXFlagWrite;
+wire [7:0] IR1_in;
 
-wire [7:0] EXPC_PC_link;
+wire PC1Write, PC2Write, PC3Write;
+wire [7:0] PC1_out, PC2_out, PC3_out;
+wire IR1Sel;
+wire [7:0] ALUPC1;
+wire HazardFlagWrite;
+wire HazardPCSel;
+
+
+
 
 // ------------------------ Input Assignment ------------------------ //
 assign	clock = KEY[1];
@@ -68,7 +79,11 @@ assign	reset =  ~KEY[0]; // KEY is active high
 
 
 wire 	[2:0]	add_op;
+wire [7:0] nop_instruction;
 
+assign MemRead = EXMemRead | FetchMemRead; //1 sensitive
+assign FlagWrite = HazardFlagWrite & EXFlagWrite;  //0 sensitive
+assign PCSel = FetchPCSel & HazardPCSel; //0 sensitive; 
 
 
 // ----------------- END DE2 compatible HEX display ----------------- //
@@ -96,6 +111,21 @@ assign HEX7 = 7'b1111111;
 	// .ALU1(ALU1),.ALUOutWrite(ALUOutWrite),.RFWrite(RFWrite),.RegIn(RegIn),
 	// .FlagWrite(FlagWrite),.ALU2(ALU2),.ALUop(ALUOp)
 // );
+HazardFSM HazardCon
+(
+	.IR1(IR1wire_out),
+	.IR2(IR2wire_out),
+	.IR3(IR3wire_out),
+	.N(N),
+	.Z(Z),
+	.reset(reset),
+	.clock(clock),
+	.ALU1Sel(ALU1),
+	.FlagWrite(HazardFlagWrite), ///WARNING: SHORT CIRCUIT
+	.IR1Sel(IR1Sel),
+	.ALUPC1(ALUPC1),
+	.PCSel(HazardPCSel) 
+);	
 
 FetchControl FetchCon
 (
@@ -104,7 +134,7 @@ FetchControl FetchCon
 	.IR1Load(IR1Load),
 	.PCWrite(PCWrite),
 	.FetchPCSel(FetchPCSel),
-	.MemRead(MemRead),
+	.MemRead(FetchMemRead),
 	.MEMwire_pc(MEMwire_pc[3:0]), 
 	.IR1wire_out(IR1wire_out[3:0])
 );
@@ -134,17 +164,13 @@ EXControl EXCon
 	.IR4Load(IR4Load),
 	.ALUop(ALUOp),
 	.ALU2(ALU2),
-	.Flagwrite(FlagWrite),
+	.Flagwrite(EXFlagWrite),
 	.MemWrite(MemWrite),
 	.ALUOutWrite(ALUOutWrite), 
-	//.MemRead(MemRead),
+	.MemRead(EXMemRead),
 	.MDRload(MDRLoad), 
 	.N(N),.Z(Z),
-	.EXPCSel(EXPCSel),
-	.EXPCWire(EXPCWire),
-	.SE4wire(SE4wire),
-	.PCwire(PCwire)
-	
+	.SE4wire(SE4wire)
 );
 
 WBControl WBCon
@@ -179,12 +205,14 @@ memory	DataMem(
 );
 
 ALU		ALU(
-	.in1(R1wire),.in2(ALU2wire),.out(ALUwire),
+	.in1(ALU1wire),.in2(ALU2wire),.out(ALUwire),
 	.ALUOp(ALUOp),.N(Nwire),.Z(Zwire)
 );
 
 ALU		ALUPC(
-	.in1(PCwire),.in2(constant),.out(ALUPCwire_out),
+	.in1(PCwire),
+	.in2(ALUPC1), // ALUPC1 is from HazardFSM
+	.out(ALUPCwire_out),
 	.ALUOp(add_op)
 	// ,.N(xx),.Z(xx)
 );
@@ -198,7 +226,7 @@ RF		RF_block(
 
 register_8bit	IR1_reg(
 	.clock(clock),.aclr(reset),.enable(IR1Load),
-	.data(MEMwire_pc),.q(IR1wire_out)
+	.data(IR1_in),.q(IR1wire_out)
 );
 
 register_8bit	IR2_reg(
@@ -225,6 +253,23 @@ register_8bit	PC(
 	.clock(clock),.aclr(reset),.enable(PCWrite),
 	.data(PCSelwire_out),.q(PCwire)
 );
+
+//////////////////////////PCs coresponding IR1 IR2 IR3
+register_8bit	PC1(
+	.clock(clock),.aclr(reset),.enable(PC1Write),
+	.data(PCwire),.q(PC1_out)
+);
+
+register_8bit	PC2(
+	.clock(clock),.aclr(reset),.enable(PC2Write),
+	.data(PC1_out),.q(PC2_out)
+);
+
+register_8bit	PC3(
+	.clock(clock),.aclr(reset),.enable(PC3Write),
+	.data(PC2_out),.q(PC3_out)
+);
+////////////////////////////////////////////////////
 
 register_8bit	R1(
 	.clock(clock),.aclr(reset),.enable(R1R2Load),
@@ -265,18 +310,20 @@ mux2to1_8bit 		RegMux(
 	.sel(RegIn),.result(RegWire)
 );
 
-assign PCSel = FetchPCSel & EXPCSel;
 
 mux2to1_8bit 		PCSelMux(
-	.data0x(EXPCWire),.data1x(ALUPCwire_out),
+	.data0x(ALUwire),.data1x(ALUPCwire_out),
 	.sel(PCSel),.result(PCSelwire_out)
 );
 
+mux2to1_8bit		IR1Mux(
+	.data0x(nop_instruction), .data1x(MEMwire_pc), .sel(IR1Sel), .result(IR1_in)
+);
 
-// mux2to1_8bit 		ALU1_mux(
-	// .data0x(PCwire),.data1x(R1wire),
-	// .sel(ALU1),.result(ALU1wire)
-// );
+mux5to1_8bit 		ALU1_mux(
+	.data0x(constant),.data1x(PC3_out),.data2x(R1wire),.data3x(constant), //data0x, data3x doesnt matter
+	.sel(ALU1),.result(ALU1wire)
+);
 
 mux5to1_8bit 		ALU2_mux(
 	.data0x(R2wire),.data1x(SE4wire),.data2x(ZE5wire),
@@ -306,9 +353,19 @@ if (FlagWrite)
 	end
 end
 
+
+
+
 // ------------------------ Assign Constant 1 ----------------------- //
 assign	constant = 1;
 assign add_op = 3'b000; // for the pc incrementer
+assign nop_instruction =  8'b00001010;
+assign PC1Write = 1;
+assign PC2Write = 1;
+assign PC3Write = 1;
+
+
+
 
 // ------------------------- LEDs Indicator ------------------------- //
 always @ (*)

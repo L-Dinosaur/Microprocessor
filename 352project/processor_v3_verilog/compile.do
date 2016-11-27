@@ -20,3 +20,4 @@ vlog -vlog01compat -work work WBControl.v
 vlog -vlog01compat -work work FetchControl.v
 vlog -vlog01compat -work work EXControl.v
 vlog -vlog01compat -work work DecodeControl.v
+vlog -vlog01compat -work work HazardFSM.v
