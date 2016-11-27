@@ -121,7 +121,7 @@ HazardFSM HazardCon
 	.reset(reset),
 	.clock(clock),
 	.ALU1Sel(ALU1),
-	.FlagWrite(HazardFlagWrite), ///WARNING: SHORT CIRCUIT
+	.FlagWrite(HazardFlagWrite), 
 	.IR1Sel(IR1Sel),
 	.ALUPC1(ALUPC1),
 	.PCSel(HazardPCSel) 
