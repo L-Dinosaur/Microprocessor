@@ -39,7 +39,7 @@ output reg [17:0] LEDR;
 
 // ------------------------- Registers/Wires ------------------------ //
 wire	clock, reset;
-wire	IR1Load, IR2Load, IR3Load, IR4Load, MDRLoad, MemRead, MemWrite, PCWrite, RegIn;
+wire	IR1Load, IR2Load, IR3Load, IR4Load, MDRLoad, MemRead, MemWrite, PCWrite, RegIn, IR1Load_F, IR1Load_H;
 wire	ALUOutWrite, FlagWrite, R1R2Load, R1Sel, RFWrite;
 wire	[7:0] R2wire, PCwire, R1wire, RFout1wire, RFout2wire, MEMwire_pc;
 wire	[7:0] ALU1wire, ALU2wire, ALUwire, ALUOut, MDRwire, MEMwire, ALUPCwire_out;
@@ -61,14 +61,14 @@ reg		N, Z;
 wire	EXMemRead, FetchMemRead;
 wire FetchPCSel; 
 wire EXFlagWrite;
-wire [7:0] IR1_in;
+wire [7:0] IR1_in, IR2_in;
 
 wire PC1Write, PC2Write, PC3Write;
 wire [7:0] PC1_out, PC2_out, PC3_out;
-wire IR1Sel;
+wire IR1Sel, IR2Sel;
 wire [7:0] ALUPC1;
 wire HazardFlagWrite;
-wire HazardPCSel;
+wire HazardPCSel, data_hazard;
 
 
 
@@ -76,7 +76,7 @@ wire HazardPCSel;
 // ------------------------ Input Assignment ------------------------ //
 assign	clock = KEY[1];
 assign	reset =  ~KEY[0]; // KEY is active high
-
+assign  IR1Load = IR1Load_F & IR1Load_H;
 
 wire 	[2:0]	add_op;
 wire [7:0] nop_instruction;
@@ -124,14 +124,17 @@ HazardFSM HazardCon
 	.FlagWrite(HazardFlagWrite), 
 	.IR1Sel(IR1Sel),
 	.ALUPC1(ALUPC1),
-	.PCSel(HazardPCSel) 
+	.PCSel(HazardPCSel),
+	.data_hazard(data_hazard),
+	.IR1Load(IR1Load_H),
+	.IR2Sel(IR2Sel)
 );	
 
 FetchControl FetchCon
 (
 	.clock(clock),
 	.reset(reset),
-	.IR1Load(IR1Load),
+	.IR1Load(IR1Load_F),
 	.PCWrite(PCWrite),
 	.FetchPCSel(FetchPCSel),
 	.MemRead(FetchMemRead),
@@ -145,6 +148,10 @@ DecodeControl DecodeCon(
 	.IR2Load(IR2Load)
 );
 
+Comparator Comp(
+	.instb(IR1wire_out), .instm(IR2wire_out), 
+	.instf(IR3wire_out), .res(data_hazard)
+);
 
 RFControl RFCon
 (
@@ -231,7 +238,7 @@ register_8bit	IR1_reg(
 
 register_8bit	IR2_reg(
 	.clock(clock),.aclr(reset),.enable(IR2Load),
-	.data(IR1wire_out),.q(IR2wire_out)
+	.data(IR2_in),.q(IR2wire_out)
 );
 
 register_8bit	IR3_reg(
@@ -305,6 +312,12 @@ mux2to1_8bit 		AddrSel_mux(
 	.sel(AddrSel),.result(AddrWire)
 );
 */
+
+mux2to1_8bit		IR2Mux(
+	.data0x(nop_instruction), .data1x(IR1wire_out),
+	.sel(IR2Sel), .result(IR2_in)
+);
+
 mux2to1_8bit 		RegMux(
 	.data0x(ALUOut),.data1x(MDRwire),
 	.sel(RegIn),.result(RegWire)
